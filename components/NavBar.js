@@ -15,14 +15,16 @@ export default function NavBar() {
         alt="Logo"
       />
       <div>
-        <Link className={router.pathname === '/' ? 'active' : ''} href="/">
-          Home
+        <Link href="/">
+          <span className={router.pathname === '/' ? 'active' : ''}>Home</span>
         </Link>
         <Link
           className={router.pathname === '/about' ? 'active' : ''}
           href="/about"
         >
-          About
+          <span className={router.pathname === '/about' ? 'active' : ''}>
+            About
+          </span>
         </Link>
       </div>
       <style jsx>{`

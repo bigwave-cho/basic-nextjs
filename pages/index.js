@@ -1,28 +1,55 @@
+import Link from 'next/link';
+import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import Seo from '../components/Seo';
 
-export default function Home() {
-  const [movies, setMovies] = useState();
-  useEffect(() => {
-    (async () => {
-      // werites 적용
-      const { results } = await (await fetch(`/api/movies`)).json();
-      console.log(results);
-      setMovies(results);
-    })();
-  }, []);
+export default function Home({ results }) {
+  const movies = results;
+  const router = useRouter();
+  const onClick = (id, title) => {
+    // Link와 똑같이 작동.
+    router.push(
+      {
+        pathname: `/movies/${id}`,
+        // query도 담아 보내기 가능.
+        query: {
+          title,
+        },
+      },
+      // 위 정보를 masking 하기 가능
+      // useRouter로 확인 가능!
+      `/movies/${id}`
+    );
+  };
   return (
     <div>
       <div className="container">
         <Seo title="Home" />
-        {!movies && <h4>Loading...</h4>}
         {movies?.map((movie) => (
-          <div className="movie" key={movie.id}>
-            <h4>{movie.original_title}</h4>
+          <div
+            onClick={() => {
+              onClick(movie.id, movie.original_title);
+            }}
+            key={movie.id}
+            className="movie"
+          >
             <img
               src={`https://image.tmdb.org/t/p/w500/${movie.poster_path}`}
               alt="movie_photo"
             ></img>
+            <Link
+              // Link도 router.push와 같이 아래처럼 설정 가능.
+              href={{
+                pathname: `/movies/${movie.id}`,
+                // query도 담아 보내기 가능.
+                query: {
+                  title: movie.original_title,
+                },
+              }}
+              as={`/movies/${movie.id}`}
+            >
+              <h4>{movie.original_title}</h4>
+            </Link>
           </div>
         ))}
         <style jsx>{`
@@ -31,6 +58,9 @@ export default function Home() {
             grid-template-columns: 1fr 1fr;
             padding: 20px;
             gap: 20px;
+          }
+          .movie {
+            cursor: pointer;
           }
           .movie img {
             max-width: 100%;
@@ -49,4 +79,14 @@ export default function Home() {
       </div>
     </div>
   );
+}
+
+// 여기 코드는 서버에서만 실행되는 것이기 때문에
+// 외부로 노출되지도 않고. 그럼 api key를 위해서 rewrite 등을 할 필요도 없겠군.
+export async function getServerSideProps() {
+  const { results } = await // 절대경로만 지원하기 때문에 URI 다 넣어야 함.
+  (await fetch(`http://localhost:3000/api/movies`)).json();
+  return {
+    props: { results },
+  };
 }
