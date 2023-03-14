@@ -3,7 +3,7 @@ const API_KEY = process.env.API_KEY;
 
 const nextConfig = {
   reactStrictMode: true,
-  /*async redirects() {
+  async redirects() {
     return [
       {
         //step1. source 찾기
@@ -21,7 +21,7 @@ const nextConfig = {
       },
     ];
   },
-  */
+
   //redirects는 유저가 url이 바뀌는 현상을 알아채릴 수 있음.
   //rewrites는 다른 url로 redirect 시키긴 하지만 url의 변화가 없음.
   async rewrites() {

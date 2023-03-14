@@ -6,21 +6,33 @@ import Seo from '../components/Seo';
 export default function Home({ results }) {
   const movies = results;
   const router = useRouter();
+  // const onClick = (id, title) => {
+  //   // Link와 똑같이 작동.
+  //   router.push(
+  //     {
+  //       pathname: `/movies/${id}`,
+  //       // query도 담아 보내기 가능.
+  //       query: {
+  //         title,
+  //       },
+  //     },
+  //     // 위 정보를 masking 하기 가능
+  //     // useRouter로 확인 가능!
+  //     `/movies/${id}`
+  //   );
+  // };
+  useEffect(() => {
+    (async function get() {
+      const res = await (await fetch(`/api/movies`)).json();
+      console.log(res.results);
+    })();
+  }, []);
+
   const onClick = (id, title) => {
-    // Link와 똑같이 작동.
-    router.push(
-      {
-        pathname: `/movies/${id}`,
-        // query도 담아 보내기 가능.
-        query: {
-          title,
-        },
-      },
-      // 위 정보를 masking 하기 가능
-      // useRouter로 확인 가능!
-      `/movies/${id}`
-    );
+    //[...params] 이용할 땐 아래와 같이 url에 정보 보내기.
+    router.push(`/movies/${title}/${id}`);
   };
+
   return (
     <div>
       <div className="container">
@@ -38,15 +50,16 @@ export default function Home({ results }) {
               alt="movie_photo"
             ></img>
             <Link
-              // Link도 router.push와 같이 아래처럼 설정 가능.
-              href={{
-                pathname: `/movies/${movie.id}`,
-                // query도 담아 보내기 가능.
-                query: {
-                  title: movie.original_title,
-                },
-              }}
-              as={`/movies/${movie.id}`}
+              // // Link도 router.push와 같이 아래처럼 설정 가능.
+              // href={{
+              //   pathname: `/movies/${movie.id}`,
+              //   // query도 담아 보내기 가능.
+              //   query: {
+              //     title: movie.original_title,
+              //   },
+              // }}
+              // as={`/movies/${movie.id}`}
+              href={`/movies/${movie.original_title}/${movie.id}`}
             >
               <h4>{movie.original_title}</h4>
             </Link>
