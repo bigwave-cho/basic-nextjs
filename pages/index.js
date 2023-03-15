@@ -6,21 +6,21 @@ import Seo from '../components/Seo';
 export default function Home({ results }) {
   const movies = results;
   const router = useRouter();
-  const onClick = (id, title) => {
-    // Link와 똑같이 작동.
-    router.push(
-      {
-        pathname: `/movies/${id}`,
-        // query도 담아 보내기 가능.
-        query: {
-          title,
-        },
-      },
-      // 위 정보를 masking 하기 가능
-      // useRouter로 확인 가능!
-      `/movies/${id}` // as 부분에 해당
-    );
-  };
+  // const onClick = (id, title) => {
+  //   // Link와 똑같이 작동.
+  //   router.push(
+  //     {
+  //       pathname: `/movies/${id}`,
+  //       // query도 담아 보내기 가능.
+  //       query: {
+  //         title,
+  //       },
+  //     },
+  //     // 위 정보를 masking 하기 가능
+  //     // useRouter로 확인 가능!
+  //     `/movies/${id}` // as 부분에 해당
+  //   );
+  // };
   useEffect(() => {
     (async function get() {
       const res = await (await fetch(`/api/movies`)).json();
@@ -28,10 +28,11 @@ export default function Home({ results }) {
     })();
   }, []);
 
-  // const onClick = (id, title) => {
-  //   //[...params] 이용할 땐 아래와 같이 url에 정보 보내기.
-  //   router.push(`/movies/${title}/${id}`);
-  // };
+  const onClick = (id, title) => {
+    //[...params] 이용할 땐 아래와 같이 url에 정보 보내기.
+    // router에서 params를 배열로 확인 가능.
+    router.push(`/movies/${title}/${id}`);
+  };
 
   return (
     <div>
@@ -50,7 +51,7 @@ export default function Home({ results }) {
               alt="movie_photo"
             />
             <Link
-            /*
+              /*
             ## Link
             Link도 router.push와 같이 아래처럼 설정 가능.
               href={{
@@ -60,8 +61,9 @@ export default function Home({ results }) {
                   title: movie.original_title,
                 },
               }}
-              as={`/movies/${movie.id}`}
-              href={`/movies/${movie.original_title}/${movie.id}`}*/
+              as={`/movies/${movie.id}`} */
+              // Link의 경우
+              href={`/movies/${movie.original_title}/${movie.id}`}
             >
               <h4>{movie.original_title}</h4>
             </Link>
