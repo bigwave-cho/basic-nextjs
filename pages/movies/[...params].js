@@ -3,6 +3,18 @@ import { useRouter } from 'next/router';
 
 export default function Detail({ params }) {
   const router = useRouter();
+  console.log(router);
+  /*
+  ## push나 link에 쿼리를 담도 as로 마스킹한 경우.
+  router 확인하면 as로 전달된 query 확인 가능
+
+  단 as 로 마스킹해서 쿼리를 전달하는 경우엔
+  홈페이지 -> 상세페이지가 아닌 경우에는 
+  쿼리를 전달받지 못한다.
+  ex) 바로 상세페이지로 접근
+  
+  */
+
   //[...id]로 파일명 바꿔주면 query.id가 배열로 들어옴.
 
   // const [title, id] = router.query.params || [];

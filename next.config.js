@@ -29,15 +29,18 @@ const nextConfig = {
   //redirects는 유저가 url이 바뀌는 현상을 알아채릴 수 있음.
   //rewrites는 다른 url로 redirect 시키긴 하지만 url의 변화가 없음.(masking 해줌)
   async rewrites() {
+    //http://localhost:3000/api/movies 여기 들어가보면 해당 api data 확인 가능.
+    //fetch로 해당 source에 요청하면
+    //destination 에 request 가능
+    // api 등을 숨기고 싶을 때 써도 되겠다.
     return [
       {
-        //http://localhost:3000/api/movies 여기 들어가보면 해당 api data 확인 가능.
-        //fetch로 해당 source에 요청하면
-        //destination 에 request 가능
+        //전체 조회
         source: '/api/movies',
         destination: `https://api.themoviedb.org/3/movie/popular?api_key=${API_KEY}`,
       },
       {
+        // 특정 조회
         source: '/api/movies/:id',
         destination: `https://api.themoviedb.org/3/movie/:id?api_key=${API_KEY}`,
       },
