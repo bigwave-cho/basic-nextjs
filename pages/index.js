@@ -94,12 +94,25 @@ export default function Home({ results }) {
   );
 }
 
-// 여기 코드는 서버에서만 실행되는 것이기 때문에
-// 외부로 노출되지도 않고. 그럼 api key를 위해서 rewrite 등을 할 필요도 없겠군.
+/*
+## getServerSideProps
+여기 코드는 서버에서만 실행되는 것이기 때문에
+외부로 노출되지도 않고. 그럼 api key를 위해서 rewrite 등을 할 필요도 없겠군.
+*/
 export async function getServerSideProps() {
-  const { results } = await // 절대경로만 지원하기 때문에 URI 다 넣어야 함.
-  (await fetch(`http://localhost:3000/api/movies`)).json();
+  // 절대경로만 지원하기 때문에 URI 다 넣어야 함.
+  const { results } = await (
+    await fetch(`http://localhost:3000/api/movies`)
+  ).json();
   return {
     props: { results },
   };
 }
+
+/*
+## SSR 시 props의 이동 경로
+
+1. SSR 컴포넌트에서 데이터를 props로 반환
+2. _app.js에서 pageProps로 받음
+3. 해당 pageProps를 렌더링되는 Component에 전달
+*/
