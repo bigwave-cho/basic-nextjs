@@ -9,6 +9,7 @@ export default function NavBar() {
     <nav>
       <Image
         className="img"
+        // public폴더접근은 '/'로 시작
         src="/vercel.svg"
         width={100}
         height={100}

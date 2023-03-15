@@ -48,7 +48,7 @@ export default function Home({ results }) {
             <img
               src={`https://image.tmdb.org/t/p/w500/${movie.poster_path}`}
               alt="movie_photo"
-            ></img>
+            />
             <Link
               // // Link도 router.push와 같이 아래처럼 설정 가능.
               // href={{
